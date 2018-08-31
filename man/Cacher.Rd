@@ -19,7 +19,9 @@ cache$get_callback(key, callback, ...)
 \arguments{
 \item{expire}{Cache time(seconds). The default value is 3600, which means one hour.}
 
-\item{value}{value}
+\item{key}{Cached key.}
+
+\item{value}{Cached value.}
 
 \item{callback}{A callback function used to set the cached value, if the given key is not existed.}
 }
