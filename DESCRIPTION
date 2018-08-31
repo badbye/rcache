@@ -1,0 +1,15 @@
+Package: rcache
+Type: Package
+Title: Cache Data in R Environment
+Version: 0.1.0
+Authors@R: c(person("Yalei Du", email="hadley@rstudio.com", role=c("aut", "cre")))
+Maintainer: duyalei<yaleidu@163.com>
+Description: Offer a `Cacher` object to save data in a range of time.
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
+Imports:
+    R6
+RoxygenNote: 6.1.0
