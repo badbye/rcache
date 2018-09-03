@@ -35,7 +35,7 @@ The `get_callback` method sometimes could be very useful. Here is a satuation:
 
 ```R
 old_data_fun <- function() {
- # the returned data will change every day
+ Sys.Date() # the returned data will change every day
 }
 cache = Cacher$new() 
 new_data_fun <- function() {
