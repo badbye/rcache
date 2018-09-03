@@ -9,6 +9,16 @@ test_that("test expire time", {
   expect_identical(cache$get('a'), NULL)
 })
 
+
+test_that("test exists", {
+  cache <- Cacher$new(expire = 1)
+  cache$set('a', iris)
+  expect_true(cache$exist('a'))
+  Sys.sleep(1)
+  expect_false(cache$exist('a'))
+})
+
+
 test_that("test callback", {
   cache <- Cacher$new(expire = 1)
   cache$set('a', iris)

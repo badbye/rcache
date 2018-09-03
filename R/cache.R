@@ -61,7 +61,7 @@ Cacher <- R6Class("Cacher",
 
     exist = function(key){
       setTime = self$setTimeList[[key]]
-      if (is.null(setTime)) return(TRUE)
+      if (is.null(setTime)) return(FALSE)
       if (as.numeric(Sys.time()) - setTime > self$expireList[[key]]){
         self$del(key)
         return(FALSE)
