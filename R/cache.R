@@ -38,56 +38,59 @@ library(R6)
 #'
 #' @export
 Cacher <- R6Class("Cacher",
-  private = list(
-    expire = 3600
-  ),
-  public = list(
-    data = list(),
-    expireList = list(),
-    setTimeList = list(),
-
-    initialize = function(expire=3600){
-      private$expire = expire
-    },
-
-    set = function(key, value, expire=private$expire){
-      stopifnot(is.character(key))
-      stopifnot(is.numeric(expire))
-      self$data[[key]] = value
-      self$expireList[[key]] = expire
-      self$setTimeList[[key]] = as.numeric(Sys.time())
-      message(sprintf('%s will be expired in %ss', key, expire))
-    },
-
-    exist = function(key){
-      key = as.character(key)
-      setTime = self$setTimeList[[key]]
-      if (is.null(setTime)) return(FALSE)
-      if (as.numeric(Sys.time()) - setTime > self$expireList[[key]]){
-        self$del(key)
-        return(FALSE)
-      }
-      return(TRUE)
-    },
-
-    del = function(key){
-      self$data[[key]] = NULL
-      self$expireList[[key]] = NULL
-      self$setTimeList[[key]] = NULL
-    },
-
-    get = function(key){
-      if (self$exist(key)) return(self$data[[key]])
-      NULL
-    },
-
-    get_callback = function(key, callback, ...){
-      if (self$exist(key)) return(self$data[[key]])
-      if (is.function(callback)){
-        value = callback()
-        self$set(key, value, ...)
-        return(value)
-      }
-    }
-  )
+                  private = list(
+                    expire = 3600
+                  ),
+                  public = list(
+                    data = list(),
+                    expireList = list(),
+                    setTimeList = list(),
+                    
+                    initialize = function(expire=3600){
+                      private$expire = expire
+                    },
+                    
+                    set = function(key, value, expire=private$expire){
+                      stopifnot(is.character(key))
+                      stopifnot(is.numeric(expire))
+                      self$data[[key]] = value
+                      self$expireList[[key]] = expire
+                      self$setTimeList[[key]] = as.numeric(Sys.time())
+                      message(sprintf('%s will be expired in %ss', key, expire))
+                    },
+                    
+                    exist = function(key){
+                      stopifnot(is.character(key))
+                      setTime = self$setTimeList[[key]]
+                      if (is.null(setTime)) return(FALSE)
+                      if (as.numeric(Sys.time()) - setTime > self$expireList[[key]]){
+                        self$del(key)
+                        return(FALSE)
+                      }
+                      return(TRUE)
+                    },
+                    
+                    del = function(key){
+                      stopifnot(is.character(key))
+                      self$data[[key]] = NULL
+                      self$expireList[[key]] = NULL
+                      self$setTimeList[[key]] = NULL
+                    },
+                    
+                    get = function(key){
+                      stopifnot(is.character(key))
+                      if (self$exist(key)) return(self$data[[key]])
+                      NULL
+                    },
+                    
+                    get_callback = function(key, callback, ...){
+                      stopifnot(is.character(key))
+                      if (self$exist(key)) return(self$data[[key]])
+                      if (is.function(callback)){
+                        value = callback()
+                        self$set(key, value, ...)
+                        return(value)
+                      }
+                    }
+                  )
 )
